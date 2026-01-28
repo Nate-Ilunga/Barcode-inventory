@@ -1,0 +1,59 @@
+# =========================
+# OS / Editor files
+# =========================
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+
+# =========================
+# Environment & config
+# =========================
+.env
+.env.local
+
+# =========================
+# PHP / Server
+# =========================
+vendor/
+composer.lock
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# Storage (generated files)
+# =========================
+storage/barcodes/*
+storage/uploads/*
+
+# Keep folders but ignore contents
+!storage/barcodes/.gitkeep
+!storage/uploads/.gitkeep
+
+# =========================
+# Cache / temp
+# =========================
+cache/
+tmp/
+
+# =========================
+# Database dumps
+# =========================
+*.sql.bak
+*.sqlite
+*.db
+
+# =========================
+# Node (if you ever add it)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+git add .gitignore README.md .env.example
+git commit -m "Add gitignore, README, and env example"
+

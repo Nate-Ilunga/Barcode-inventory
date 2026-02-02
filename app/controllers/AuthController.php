@@ -54,7 +54,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){                   //if the form was su
     ];
 
 
-    
+    //calls the User model to save CleanData by creating objet from User class
+   $user = new User();
+   $result = $user->create($CleanUserData);  //The function from the User class, called create, is passed the clean data, which is inserted&saved into the user db table.
+
+   if($result === "success"){
+    header("Location: index.php");                // redirect to login page, after successful insertion of user data into db
+    exit;
+   }
+
+   if($result === "duplicate" ){                         
+    return "User already exists";
+   }
+
+   return "Something went wrong";
+
+
+
+
 
 
     

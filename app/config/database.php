@@ -5,7 +5,7 @@
 class Database {                                   //creating a db class so it's reusable
                                                   // only visible to this class
     private $host = "localhost";                  //where the db is located
-    private $db   = "InventoryDB";           //name of the db
+    private $db   = "InventoryDB";                //name of the db
     private $user = "root";                        //defaut db username
     private $pass = "";                            
 

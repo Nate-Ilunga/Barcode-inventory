@@ -5,10 +5,11 @@
 class Database {                                   //creating a db class so it's reusable
                                                   // only visible to this class
     private $host = "localhost";                  //where the db is located
-    private $db   = "barcode_inventory";           //name of the db
+    private $db   = "InventoryDB";           //name of the db
     private $user = "root";                        //defaut db username
     private $pass = "";                            
 
+    
     public function connect() {
         try {                                       // try even if it fails
             return new PDO(                         //creates new db connection using PHP built db tool -PDO
@@ -20,5 +21,5 @@ class Database {                                   //creating a db class so it's
         } catch (PDOException $e) {                                     //if anything fails inside
             die("Database connection failed");                          //terminate the entire program and display that message
         }
-    }
+    } 
 }

@@ -54,7 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {           // if the form was submit
     </form>
 
    <p>
-
+    <?php 
+    
+    foreach((array)$message as $msg){
+        echo htmlspecialchars($msg) . "<br>";
+    }
+    
+    ?>
    </p>
 </body>
 </html>

@@ -1,25 +1,29 @@
 <?php
-
-//creating a database connection
-
-class Database {                                   //creating a db class so it's reusable
-                                                  // only visible to this class
-    private $host = "localhost";                  //where the db is located
-    private $db   = "InventoryDB";                //name of the db
-    private $user = "root";                        //defaut db username
-    private $pass = "";                            
-
+class Database {
+    private $host = "localhost";                                              //where db is located            
+    private $db   = "inventorydb";                                             //name of the db
+    private $user = "root";                                                     // default db username
+    private $pass = "";                                                         //db password
+    private $port = 3307;                                                   
     
-    public function connect() {
-        try {                                       // try even if it fails
-            return new PDO(                         //creates new db connection using PHP built db tool -PDO
-                "mysql:host={$this->host};dbname={$this->db}",  //db type, where it lives and which db. Use the host and db in this object
-                $this->user,                           // db username taken from the class
-                $this->pass,                           // db pass taken from class
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]   // if something goes wrong, give an ERROR
+    public function connect() {                               //function to connect to db
+
+        try {                                                       //try even though it might fail                                          
+            
+            $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->db}";    //Build connection string with all info above  
+            
+                                                                                        
+            $pdo = new PDO(                                                                //create actual connection using PDO(PHP's db tool) and stores
+                $dsn,                                                               // connection string we just built
+                $this->user,                                                    //db username taken from the class
+                $this->pass,                                                    //db pass taken from class
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]                      // if something goes wrong, give an ERROR
             );
-        } catch (PDOException $e) {                                     //if anything fails inside
-            die("Database connection failed");                          //terminate the entire program and display that message
+            
+            return $pdo;                                                                    //Send back the connection so other code can use it
+            
+        } catch (PDOException $e) {                                                         //if anything fails inside, catch the error
+            die("Database connection failed: " . $e->getMessage());                         // terminate the entire program and display message
         }
     } 
 }

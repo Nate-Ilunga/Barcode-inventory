@@ -1,12 +1,23 @@
+
+<?php 
+session_start();                                                             
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up | Login in</title>
+    <title> | Login in | </title>
 </head>
 <body>
-    <h1>Welcome back!</h1>
+    <?php
+
+if(isset($_SESSION["Registr_Success_Msg"])){
+    echo "<p style='color:green'>" . $_SESSION["Registr_Success_Msg"] .   "</p>";             
+}
+
+?>
+    <h1>Welcome</h1>
     <p>Please login to your account.</p>
     <form action="database.sql" method="POST">
         <label>Enter email:</label>
@@ -25,5 +36,7 @@
     </form>  
 </body>
 </html>
+
+
 
 

@@ -13,7 +13,8 @@ session_start();
     <?php
 
 if(isset($_SESSION["Registr_Success_Msg"])){
-    echo "<p style='color:green'>" . $_SESSION["Registr_Success_Msg"] .   "</p>";             
+    echo "<p style='color:green'>" . $_SESSION["Registr_Success_Msg"] .   "</p>"; 
+    unset($_SESSION["Registr_Success_Msg"]);            
 }
 
 ?>
@@ -21,7 +22,6 @@ if(isset($_SESSION["Registr_Success_Msg"])){
     <p>Please login to your account.</p>
     <form action="database.sql" method="POST">
         <label>Enter email:</label>
-        <br>
         <br>
         <input type="email" required name="email" placeholder="mikerafone@gmail.com">
         <br>

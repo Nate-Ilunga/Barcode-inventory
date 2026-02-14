@@ -21,14 +21,44 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["sent"])){
     if(empty($Pass)){
         echo "Password cannot be empty";
     }
-    else{
-        $Hash_Pass = password_hash($Pass, PASSWORD_DEFAULT);
-    }
 
+    //else{}
+    
+    //Creating DB connection
     $user = new Database();
     $conn = $user->connect();
 
+    //Querying the DB
+    $sql = "SELECT * FROM users where email = :email"; // The statement/sql query retrieving the email and passwords
+    $statement = $conn->prepare($sql);  
     
+    //binding
+    $statement->bindParam(":email", $Email, PDO::PARAM_STR);
+    
+    //executing
+    $statement->execute();
+    $Result = $statement->fetchAll();
+
+    if($statement->rowCount() == 0){                      // checks if there are any rows returned from the DB query, rows containing email and password
+        echo "Invalid username or password";
+        exit;
+    }
+
+    if(password_verify($Pass,$CleanUserData["password"])){   // verify that the password entered during login matches as the hashed password in the DB
+        session_start();                                                    //Start a session to store and remember the user's details
+        $_SESSION["User_Email"] = $Email;
+        $_SESSION["logged_in"] = true;
+        header("Location: dashboard.php");                          //If password matches redirect to dashboard page
+    }
+
+    else{
+        echo "Invalid username or password";
+        exit;
+    }
+
+
+
+
     
     
 

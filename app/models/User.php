@@ -14,7 +14,7 @@ class User {
             $query = "
                 INSERT INTO users (name, email, password, role)
                 VALUES (:name, :email, :password, :role)                 
-            ";                                            //SQL instructions, insert a new row in the users table with name, email and password as placeholders for now not real values yet
+            ";                                            //SQL instructions, insert a new row in the users table with name, email,password,role as placeholders for now not real values yet
 
             $stmt = $this->db->prepare($query);    //prepares the db connection. Prevents SQL injection
             $stmt->execute([                     // runs the query so now the db stores the actual name,email and password values
@@ -33,6 +33,26 @@ class User {
             }
             return "Unknown error occured";                                   // if the error is NOT a duplicate, something else went wrong
         }
+    }
+
+    public function findByEmail($email){
+
+        $this->db;
+
+        // Query the DB:
+        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $statement = $this->db->prepare($sql);
+        $statement->bindParam(":email", $email,PDO::PARAM_STR);
+        $statement->execute();
+        $Result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if($Result){
+            return $Result;
+        }
+        else{
+            return null;
+        }
+
     }
         
 }

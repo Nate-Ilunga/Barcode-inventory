@@ -51,17 +51,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {           // if the form was submit
         <br>
         <br>
         <button type="submit" name="sent">Sign Up</button>
+        
     </form>
 
-   <p>
-    <?php 
     
-    foreach((array)$message as $msg){
-        echo htmlspecialchars($msg) . "<br>";
+
+   <p>
+    <?php  //Using a loop, to display each error
+
+    if(!empty($message)){
+        foreach((array)$message as $msg){
+            echo htmlspecialchars($msg) . "<br>";
+        }
     }
+    
+    
     
     ?>
    </p>
 </body>
 </html>
+
+
 

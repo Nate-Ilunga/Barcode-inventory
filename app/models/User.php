@@ -37,14 +37,16 @@ class User {
 
     public function findByEmail($email){
 
-        $this->db;
-
+        
         // Query the DB:
         $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
         $statement = $this->db->prepare($sql);
         $statement->bindParam(":email", $email,PDO::PARAM_STR);
         $statement->execute();
-        $Result = $statement->fetch(PDO::FETCH_ASSOC);
+        $Result = $statement->fetch(PDO::FETCH_ASSOC);           // returns a row of data as an associative array
+        //Result returns as an array
+
+        
 
         if($Result){
             return $Result;

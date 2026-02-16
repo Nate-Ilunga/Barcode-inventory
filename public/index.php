@@ -1,98 +1,3 @@
-
-<?php 
-session_start(); 
-
-//require_once __DIR__ . '/../config/database.php';
-//require_once __DIR__ . '/../models/User.php';
-
-//$DB = new Database();
-//$DB_Conn = $DB->connect();
-
-
-
-if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["sent"])){
-    $Email = trim($_POST["email"]);
-    $Pass = $_POST["pass"];
-
-    if(empty($Email)){
-        echo "Email cannot be empty";
-    }
-
-    if(empty($Pass)){
-        echo "Password cannot be empty";
-    }
-
-    //else{}
-    
-    //Creating DB connection
-    $user = new Database();
-    $conn = $user->connect();
-
-    //Querying the DB
-    $sql = "SELECT * FROM users where email = :email"; // The statement/sql query retrieving the email and passwords
-    $statement = $conn->prepare($sql);  
-    
-    //binding
-    $statement->bindParam(":email", $Email, PDO::PARAM_STR);
-    
-    //executing
-    $statement->execute();
-    $Result = $statement->fetchAll();
-
-    if($statement->rowCount() == 0){                      // checks if there are any rows returned from the DB query, rows containing email and password
-        echo "Invalid username or password";
-        exit;
-    }
-
-    if(password_verify($Pass,$CleanUserData["password"])){   // verify that the password entered during login matches as the hashed password in the DB
-        session_start();                                                    //Start a session to store and remember the user's details
-        $_SESSION["User_Email"] = $Email;
-        $_SESSION["logged_in"] = true;
-        header("Location: dashboard.php");                          //If password matches redirect to dashboard page
-    }
-
-    else{
-        echo "Invalid username or password";
-        exit;
-    }
-
-
-
-
-    
-    
-
-    /*
-    if(!empty($Email && $Pass)){
-        if($Email === $CleanUserData["email"] && $Pass === $CleanUserData["password"]){
-            $_SESSION["user_id"] = 1;
-            $_SESSION["Username"] = $Email;
-
-            header("Location: dashboard.php");
-            exit;
-        }
-    }
-
-    else{
-        echo "Invalid Username or Password";
-    } */
-
-    /*
-    if($Email === $CleanUserData["email"] &&  $Pass === $CleanUserData["password"] ){
-        $_SESSION["user_id"] = 1;
-        $_SESSION["Username"] = $Email;
-
-        header("Location: dashboard.php");
-        exit;
-    }
-
-    else{
-        $err = "Invalid Username or Password";
-    } */
-}
-    
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,6 +33,24 @@ if(isset($_SESSION["Registr_Success_Msg"])){
 </body>
 </html>
 
+<?php 
+//session_start(); 
+
+require_once __DIR__ . '/../app/controllers/AuthController.php';
+
+if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["sent"])){
+    $Controller = new AuthController();    // creating an object from Auth class to handle the login logic and do all the validation(because Auth is where the login and sign up login occurs)
+    $response = $Controller->login();     //AuthController class contains a method that will handle the authentication
+                                        //login function will also return all the error logins as an array to response variable, so that they can be displayed using a loop
+
+    if(!empty($response)){
+        foreach((array)$response as $LognErr){
+            echo "<br>". "<p style='color:red'>" . htmlspecialchars($LognErr) . "<br>";
+        }
+    }
+}                               
+
+?>
 
 
 

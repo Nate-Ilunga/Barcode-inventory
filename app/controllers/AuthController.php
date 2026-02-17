@@ -4,6 +4,8 @@ session_start();                                     // stores and remembers the
 require_once __DIR__ . '/../models/User.php';
 
 class AuthController {
+
+    //The function register handles the sign up
     public function register($data) {         //$data is the same thing as $_POST but renamed, in the function it became a parameter since globals like $_POST aren't allowed
         $errors = [];
         $hashed_password = null;
@@ -83,4 +85,56 @@ class AuthController {
         }
        
     }
+    // the function login handles the login, compares whether credentials match, redirects to dashboard or displays error message
+    public function login(){
+        $LoginError = [];
+        $email = trim($_POST["email"] ?? '');
+        $pass = $_POST["pass"] ?? '';
+
+        if(empty($email)){
+            $LoginError[] = "Email cannot be empty";
+        }
+
+        if(empty($pass)){
+            $LoginError[] = "Password cannot be empty";
+        }
+
+        if(!empty($LoginError)){
+            return $LoginError;
+        }
+
+        
+
+        //DB connection and the querying
+        $UserModel = new User();
+        $user = $UserModel->findByEmail($email);  // fetching the email entered on login from DB
+
+
+       if(!$user){                                      //if no user was found
+        return ["Invalid username or password"];   // returned to the $LoginError array that will be displayed on the login page
+       }
+
+       if(!password_verify($pass,$user["Password"])){
+        return ["Invalid credentials"];             // returned to the $LoginError array that will be displayed on the login page
+       }
+
+       else{                                            //else in case the password matches:
+        $_SESSION["user_id"] = 1;                       // 
+        $_SESSION["Username"] = $email;
+        header("Location: inventory.php");
+        exit;
+       }
+
+       /*I cant add return $LoginError like in the function register 
+       because there's a redirection using the header function,so anything
+       anything after the header and exit lines doesn't run. In this case
+       the errors are returned to the $LoginError array and this 
+       array is accessed on index.php by calling the Auth class
+       and the login() function.
+       
+       */
+
+    }
+
+
 }

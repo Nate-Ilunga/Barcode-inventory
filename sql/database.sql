@@ -10,11 +10,14 @@ CREATE TABLE users(
 
 );
 
-CREATE TABLE stock_item(
-    ItemID INT PRIMARY KEY,
-    Name VARCHAR(50),
-    Price DECIMAL(10, 2),
-    Manufacturer VARCHAR(50),
-    Quantity INT,
-    Date_Added DATE
+CREATE TABLE stock_item (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Manufacturer VARCHAR(255),
+    Product VARCHAR(100) NOT NULL,
+    Quantity INT NOT NULL,
+    Date_Added DATE NOT NULL,
+    Barcode VARCHAR(255),
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
